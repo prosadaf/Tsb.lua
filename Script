@@ -1,163 +1,76 @@
--- SERVICES
-local Players = game:GetService("Players")
-local RunService = game:GetService("RunService")
-local TweenService = game:GetService("TweenService")
 
-local LocalPlayer = Players.LocalPlayer
 
--- CLEANUP GUI
-pcall(function()
-	local existingGui = LocalPlayer:FindFirstChild("PlayerGui"):FindFirstChild("TheStrongestBattlegrounds")
-	if existingGui then existingGui:Destroy() end
-end)
+local a=game:GetService("Players")local b=game:GetService("RunService")local c=game:GetService("TweenService")local d=string
+local e=function(s)return d.rep("",0)end -- dummy
 
--- GUI
-local gui = Instance.new("ScreenGui")
-gui.Name = "TheStrongestBattlegrounds"
-gui.Parent = LocalPlayer:WaitForChild("PlayerGui")
-gui.ResetOnSpawn = false
+local f=a.LocalPlayer
+pcall(function()local g=f:FindFirstChild("PlayerGui"):FindFirstChild(d.gsub("TheStrongestBattlegrounds","w","w"))
+if g then g:Destroy()end end)
 
-local frame = Instance.new("Frame")
-frame.Size = UDim2.new(0, 280, 0, 350)
-frame.Position = UDim2.new(0, 20, 0.5, -175)
-frame.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
-frame.BorderSizePixel = 0
-frame.Active = true
-frame.Draggable = true
-frame.Parent = gui
+local h=Instance.new("ScreenGui")h.Name="TheStrongestBattlegrounds"h.Parent=f:WaitForChild("PlayerGui")h.ResetOnSpawn=false
+local i=Instance.new("Frame")i.Size=UDim2.new(0,280,0,350)i.Position=UDim2.new(0,20,0.5,-175)i.BackgroundColor3=Color3.fromRGB(15,15,15)i.BorderSizePixel=0i.Active=true
+i.Draggable=true;i.Parent=h;Instance.new("UICorner",i).CornerRadius=UDim.new(0,12)
+local j=Instance.new("TextLabel")j.Size=UDim2.new(1,0,0,50)j.Text=d.gsub("The Strongest Battlegrounds"," "," ")j.TextColor3=Color3.fromRGB(255,100,100)
+j.Font=Enum.Font.GothamBold;j.TextSize=20;j.BackgroundColor3=Color3.fromRGB(25,25,25)
+j.TextStrokeTransparency=0.1;j.TextStrokeColor3=Color3.fromRGB(0,0,0)j.Parent=i
+Instance.new("UICorner",j).CornerRadius=UDim.new(0,8)
+local k=Instance.new("ScrollingFrame")k.Size=UDim2.new(1,-20,0,120)k.Position=UDim2.new(0,10,0,60)k.CanvasSize=UDim2.new(0,0,0,0)
+k.ScrollBarThickness=6;k.BackgroundColor3=Color3.fromRGB(25,25,25);k.BorderSizePixel=0;k.Parent=i
+Instance.new("UICorner",k).CornerRadius=UDim.new(0,8)
 
-Instance.new("UICorner", frame).CornerRadius = UDim.new(0, 12)
-
-local title = Instance.new("TextLabel")
-title.Size = UDim2.new(1, 0, 0, 50)
-title.Text = "The Strongest Battlegrounds"
-title.TextColor3 = Color3.fromRGB(255, 100, 100)
-title.Font = Enum.Font.GothamBold
-title.TextSize = 20
-title.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
-title.TextStrokeTransparency = 0.1 -- black stroke instead of white glow
-title.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
-title.Parent = frame
-
-Instance.new("UICorner", title).CornerRadius = UDim.new(0, 8)
-
-local scroll = Instance.new("ScrollingFrame")
-scroll.Size = UDim2.new(1, -20, 0, 120)
-scroll.Position = UDim2.new(0, 10, 0, 60)
-scroll.CanvasSize = UDim2.new(0, 0, 0, 0)
-scroll.ScrollBarThickness = 6
-scroll.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
-scroll.BorderSizePixel = 0
-scroll.Parent = frame
-
-Instance.new("UICorner", scroll).CornerRadius = UDim.new(0, 8)
-
--- TARGET LIST & ORBIT LOGIC
-local selectedTarget = nil
-local orbiting = false
-local orbitConnection = nil
-
-local function stopOrbit()
-	orbiting = false
-	if orbitConnection then
-		orbitConnection:Disconnect()
-		orbitConnection = nil
-	end
+local m,n,o=nil,false,nil
+local p=function()n=false;if o then o:Disconnect();o=nil end end
+local q=function()
+ if not m then return end
+ local r=f and f.Character and f.Character:FindFirstChild("HumanoidRootPart")
+ local s=m and m.Character and m.Character:FindFirstChild("HumanoidRootPart")
+ if not r or not s then return end
+ p();n=true
+ local t=5
+ o=b.RenderStepped:Connect(function()
+  if not n or not r or not s then return end
+  local u=s.CFrame.LookVector
+  local v=s.Position-u*t
+  r.CFrame=CFrame.new(v,s.Position)
+ end)
 end
 
-local function startOrbit()
-	if not selectedTarget then return end
-	local myHRP = LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
-	local targetHRP = selectedTarget.Character and selectedTarget.Character:FindFirstChild("HumanoidRootPart")
-	if not myHRP or not targetHRP then return end
-
-	stopOrbit()
-
-	orbiting = true
-	local dist = 5
-
-	orbitConnection = RunService.RenderStepped:Connect(function()
-		if not orbiting or not myHRP or not targetHRP then return end
-		local forward = targetHRP.CFrame.LookVector
-		local behind = targetHRP.Position - forward * dist
-		myHRP.CFrame = CFrame.new(behind, targetHRP.Position)
-	end)
+local function refresh()
+ k:ClearAllChildren()
+ local w=0
+ for _,x in ipairs(a:GetPlayers())do
+  if x~=f then
+   local y=Instance.new("TextButton")y.Size=UDim2.new(1,0,0,30)
+   y.Position=UDim2.new(0,0,0,w)
+   y.Text=x.Name;y.TextColor3=Color3.fromRGB(255,255,255)
+   y.Font=Enum.Font.Gotham;y.TextSize=16
+   y.BackgroundColor3=Color3.fromRGB(45,45,45);y.BorderSizePixel=0
+   y.Parent=k;Instance.new("UICorner",y).CornerRadius=UDim.new(0,6)
+   y.MouseButton1Click:Connect(function()
+    m=x;j.Text="Target: "..x.DisplayName;q()
+   end)
+   w=w+35
+  end
+ end
+ k.CanvasSize=UDim2.new(0,0,0,w)
 end
 
-local function refreshTargets()
-	scroll:ClearAllChildren()
-	local y = 0
-
-	for _, plr in ipairs(Players:GetPlayers()) do
-		if plr ~= LocalPlayer then
-			local btn = Instance.new("TextButton")
-			btn.Size = UDim2.new(1, 0, 0, 30)
-			btn.Position = UDim2.new(0, 0, 0, y)
-			btn.Text = plr.Name
-			btn.TextColor3 = Color3.fromRGB(255, 255, 255)
-			btn.Font = Enum.Font.Gotham
-			btn.TextSize = 16
-			btn.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
-			btn.BorderSizePixel = 0
-			btn.Parent = scroll
-
-			Instance.new("UICorner", btn).CornerRadius = UDim.new(0, 6)
-
-			btn.MouseButton1Click:Connect(function()
-				selectedTarget = plr
-				title.Text = "🎯 Target: " .. plr.DisplayName
-				startOrbit()
-			end)
-
-			y = y + 35
-		end
-	end
-
-	scroll.CanvasSize = UDim2.new(0, 0, 0, y)
+local function rbtn(a1,b1,c1,d1)
+ local z=Instance.new("TextButton")z.Size=UDim2.new(1,-20,0,36)
+ z.Position=UDim2.new(0,10,0,b1);z.BackgroundColor3=c1
+ z.Text=a1;z.TextColor3=Color3.new(1,1,1)
+ z.Font=Enum.Font.GothamBold;z.TextSize=18;z.BorderSizePixel=0
+ z.Parent=i;Instance.new("UICorner",z).CornerRadius=UDim.new(0,10)
+ z.MouseButton1Click:Connect(d1)
+ return z
 end
 
--- BUTTON CREATION
-local function makeBtn(text, yOffset, color, callback)
-	local btn = Instance.new("TextButton")
-	btn.Size = UDim2.new(1, -20, 0, 36)
-	btn.Position = UDim2.new(0, 10, 0, yOffset)
-	btn.BackgroundColor3 = color
-	btn.TextColor3 = Color3.new(1, 1, 1)
-	btn.Font = Enum.Font.GothamBold
-	btn.TextSize = 18
-	btn.Text = text
-	btn.BorderSizePixel = 0
-	btn.Parent = frame
-
-	Instance.new("UICorner", btn).CornerRadius = UDim.new(0, 10)
-	btn.MouseButton1Click:Connect(callback)
-	return btn
-end
-
--- BUTTONS
-makeBtn("🔥 Start Orbit", 200, Color3.fromRGB(255, 0, 0), function()
-	startOrbit()
+rbtn("Start Orbit",200,Color3.fromRGB(255,0,0),q)
+rbtn("Stop Orbit",240,Color3.fromRGB(150,0,0),p)
+rbtn("Refresh",280,Color3.fromRGB(0,100,255),refresh)
+a.PlayerAdded:Connect(refresh)
+a.PlayerRemoving:Connect(function(z1)
+ if z1==m then p();m=nil;j.Text="The Strongest Battlegrounds"end
+ refresh()
 end)
-
-makeBtn("❌ Stop Orbit", 240, Color3.fromRGB(150, 0, 0), function()
-	stopOrbit()
-end)
-
-makeBtn("🔄 Refresh Players", 280, Color3.fromRGB(0, 100, 255), function()
-	refreshTargets()
-end)
-
--- AUTO REFRESH ON PLAYER JOIN/LEAVE WITH ORBIT STOP LOGIC
-Players.PlayerAdded:Connect(refreshTargets)
-
-Players.PlayerRemoving:Connect(function(plr)
-	if plr == selectedTarget then
-		stopOrbit()
-		selectedTarget = nil
-		title.Text = "The Strongest Battlegrounds"
-	end
-	refreshTargets()
-end)
-
--- INITIAL LOAD
-refreshTargets()
+refresh()
